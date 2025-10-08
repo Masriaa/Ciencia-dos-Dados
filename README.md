@@ -41,7 +41,7 @@ jupyter lab
 
 
 ## Estrutura de diretórios do projeto
-```bash
+```
 .
 |-- README.md            <- Arquivo README principal com as instruções do projeto.
 |-- .gitignore           <- Especifica arquivos e pastas a serem ignorados pelo Git.
