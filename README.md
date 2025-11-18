@@ -17,7 +17,7 @@ cd Ciencia-dos-Dados
 #### Windows
 ```powershell
 python -m venv .venv
-.venv\Scripts\Activate.ps1
+.venv\bin\Activate.ps1
 ```
 
 #### Linux
