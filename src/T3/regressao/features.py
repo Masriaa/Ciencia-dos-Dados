@@ -5,9 +5,6 @@ def calcular_peso_cubado(comprimento, altura, largura, fator_cubagem=6000):
     peso_cubado_kg = volume_cm3 / fator_cubagem
     return peso_cubado_kg * 1000
 
-def selecionar_peso_final(peso_real, peso_cubado):
-    return np.maximum(peso_real, peso_cubado)
-
 def haversine_vectorized(lat1, lon1, lat2, lon2, R=6371.0):
     # Converte graus para radianos
     lat1, lon1, lat2, lon2 = map(np.radians, [lat1, lon1, lat2, lon2])
