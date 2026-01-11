@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+import re
+from nltk.stem import RSLPStemmer
 from sklearn.metrics import classification_report, confusion_matrix
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
@@ -15,8 +17,6 @@ def analisar_desbalanceamento(df, coluna_alvo):
     ir = n_maioria / n_minoria
 
     print(f"--- Análise de Desbalanceamento ---")
-    print(f"Classe Majoritária: {n_maioria}")
-    print(f"Classe Minoritária: {n_minoria}")
     print(f"Imbalance Ratio (IR): {ir:.2f}")
 
     if ir <= 2:
@@ -29,6 +29,41 @@ def analisar_desbalanceamento(df, coluna_alvo):
     print(f"Classificação: {classificacao}")
 
     return ir
+
+def clean_text_olist(text: str) -> str:
+    """
+    Função auxiliar para limpar strings individuais de avaliações da Olist.
+    """
+    # Garantindo que é string e converter para minúsculas
+    text = str(text).lower()
+    # Removendo números
+    text = re.sub(r'\d+', '', text)
+    # Removendo pontuação
+    text = re.sub(r'[^\w\s]', '', text) 
+    # Removendo múltiplos espaços e quebras de linha
+    text = re.sub(r'\s+', ' ', text).strip()
+    return text
+
+def limpeza(df, nome_coluna):
+    """
+    Aplica a limpeza em uma coluna específica do DataFrame.
+    """
+    df[nome_coluna] = df[nome_coluna].apply(clean_text_olist)
+    return df
+
+def stemming(df, coluna):
+    """
+    Reduz as palavras ao radical e converte a lista de tokens de volta para string.
+    """
+    stemmer = RSLPStemmer()
+        
+    # 1. Aplica o stemming (em cada palavra da lista de tokens)
+    df[coluna] = df[coluna].apply(lambda lista: [stemmer.stem(p) for p in lista])
+    
+    # 2. Converte a lista de volta para uma string única (Join)
+    df[coluna] = df[coluna].apply(lambda x: " ".join(x))
+    
+    return df
 
 def vetorizar_dados(X_train, X_test):
     """
