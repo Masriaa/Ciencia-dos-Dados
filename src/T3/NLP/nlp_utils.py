@@ -6,6 +6,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+import pandas as pd
 
 def analisar_desbalanceamento(df, coluna_alvo):
     """
@@ -127,6 +128,57 @@ def avaliar_modelo(modelo, nome_modelo, X_train_bow, X_test_bow, X_train_tfidf, 
 
     plt.tight_layout()
     plt.show()
+
+def resultados(dados):
+    """
+    Processa os rankings e gera as visualizações para BoW e TF-IDF.
+    """
+    df = pd.DataFrame(dados)
+
+    # --- RANKING BAG OF WORDS (BoW) ---
+    ranking_bow = df[df['Vetorização'] == 'BoW'].sort_values(by='Acurácia', ascending=False)
+    
+    # --- RANKING TF-IDF ---
+    ranking_tfidf = df[df['Vetorização'] == 'TF-IDF'].sort_values(by='Acurácia', ascending=False)
+
+    # Configuração visual para os gráficos
+    sns.set_theme(style="whitegrid")
+
+    # Visualização BoW
+    plt.figure(figsize=(5, 3))
+    sns.barplot(
+        x='Acurácia', 
+        y='Modelo', 
+        data=ranking_bow, 
+        palette='RdPu', 
+        hue='Modelo',    
+        legend=False     
+    )
+    plt.title('Performance: Modelos com Bag of Words (BoW)')
+    plt.xlim(0.8, 0.92) 
+    plt.xlabel('Acurácia')
+    plt.ylabel('Modelo')
+    plt.tight_layout()
+    plt.show()
+
+    # Visualização TF-IDF
+    plt.figure(figsize=(5, 3))
+    sns.barplot(
+        x='Acurácia', 
+        y='Modelo', 
+        data=ranking_tfidf, 
+        palette='RdPu', 
+        hue='Modelo',    
+        legend=False     
+    )
+    plt.title('Performance: Modelos com TF-IDF')
+    plt.xlim(0.8, 0.92)
+    plt.xlabel('Acurácia')
+    plt.ylabel('Modelo')
+    plt.tight_layout()
+    plt.show()
+
+    return ranking_bow, ranking_tfidf
 
 def nuvens_palavras(df, coluna_texto, coluna_label):
     """
