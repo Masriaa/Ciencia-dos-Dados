@@ -30,7 +30,7 @@ source .venv/bin/activate
 O projeto é dividido em trabalhos (T1, T2 e T3.). Cada trabalho possui um arquivo de dependências específico dentro da pasta `requirements`. Instale as dependências referentes ao trabalho que deseja executar.
 #### Exemplo (para o Trabalho 2):
 ```bash
-pip install -r requirements/T2.txt
+pip install -r requirements/T3.txt
 ```
 
 ### 4. Acessar os notebooks
